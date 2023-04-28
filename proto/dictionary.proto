@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package example;
+
+import "google/protobuf/any.proto";
+
+service Dictionary {
+    rpc Get(Key) returns (Value) {}
+    rpc Set(Key) returns (Value) {}
+    rpc Delete(Key) returns (Value) {}
+    rpc Size(Empty) returns (DictionarySizeInfo) {}
+}
+
+message Key {
+    string data = 1;
+    google.protobuf.Any payload = 2;
+}
+
+message Value {
+    string data = 1;
+    google.protobuf.Any payload = 2;
+}
+
+message DictionarySizeInfo {
+    int32 size = 1;
+}
+
+message Empty {}
