@@ -10,4 +10,5 @@ load("@rules_proto_grpc//cpp:defs.bzl", "cpp_grpc_library")
 cpp_grpc_library(
     name = "dictionary_library",
     protos = ["//proto:dictionary_proto"],
+    visibility = ["//visibility:public"]
 )
