@@ -7,9 +7,8 @@ using grpc::ServerBuilder;
 using grpc::ServerContext;
 using grpc::Status;
 
-using namespace dictionary;
-
-class Server final : public Storage::Service {
+namespace dictionary {
+class StorageService final : public Storage::Service {
     Status set(ServerContext* context, const Key* request,
                Value* reply) override;
 
@@ -22,3 +21,4 @@ class Server final : public Storage::Service {
     Status size(ServerContext* context, const Empty* request,
                 DictionarySizeInfo* reply) override;
 };
+}  // namespace dictionary

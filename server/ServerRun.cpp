@@ -1,10 +1,10 @@
-#include "Server.h"
+#include "StorageService.h"
 
 #include <grpc++/grpc++.h>
 
 int main(int argc, char** argv) {
     std::string server_address("0.0.0.0:50051");
-    Server service;
+    dictionary::StorageService service;
 
     ServerBuilder builder;
     // Listen on the given address without any authentication mechanism.
@@ -13,7 +13,7 @@ int main(int argc, char** argv) {
     // clients. In this case it corresponds to an *synchronous* service.
     builder.RegisterService(&service);
     // Finally assemble the server.
-    std::unique_ptr<Server> server(builder.BuildAndStart());
+    std::unique_ptr<grpc::Server> server(builder.BuildAndStart());
     std::cout << "Server listening on " << server_address << std::endl;
 
     // Wait for the server to shutdown. Note that some other thread must be

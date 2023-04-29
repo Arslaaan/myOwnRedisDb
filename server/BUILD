@@ -3,10 +3,10 @@ load("@rules_cc//cc:defs.bzl", "cc_library", "cc_binary")
 cc_library(
     name = "redis-server-library",
     srcs = [
-        "Server.cpp"
+        "StorageService.cpp"
     ],
     hdrs = [
-        "Server.h"
+        "StorageService.h"
     ],
     deps = [
         "//proto:dictionary_library"
