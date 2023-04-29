@@ -1,14 +1,14 @@
 syntax = "proto3";
 
-package example;
+package dictionary;
 
 import "google/protobuf/any.proto";
 
-service Dictionary {
-    rpc Get(Key) returns (Value) {}
-    rpc Set(Key) returns (Value) {}
-    rpc Delete(Key) returns (Value) {}
-    rpc Size(Empty) returns (DictionarySizeInfo) {}
+service Storage {
+    rpc get(Key) returns (Value) {}
+    rpc set(Key) returns (Value) {}
+    rpc remove(Key) returns (Value) {}
+    rpc size(Empty) returns (DictionarySizeInfo) {}
 }
 
 message Key {

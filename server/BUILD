@@ -1,3 +1,5 @@
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_binary")
+
 cc_library(
     name = "redis-server-library",
     srcs = [
@@ -6,6 +8,9 @@ cc_library(
     hdrs = [
         "Server.h"
     ],
+    deps = [
+        "//proto:dictionary_library"
+    ]
 )
 
 cc_binary(
@@ -15,6 +20,5 @@ cc_binary(
     ],
     deps = [
         ":redis-server-library",
-        "//proto:dictionary_library",
     ],
 )
