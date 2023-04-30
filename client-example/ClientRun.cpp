@@ -21,11 +21,57 @@ class Client {
 
         Status status = stub_->set(&context, request, &reply);
 
-        // Act upon its status.
         if (status.ok()) {
             return "OK";
         } else {
-            return "RPC failed";
+            return status.error_message();
+        }
+    }
+
+    std::string get(const std::string& key) {
+        dictionary::Key request;
+        request.set_data(key);
+
+        dictionary::Value reply;
+        ClientContext context;
+
+        Status status = stub_->get(&context, request, &reply);
+
+        if (status.ok()) {
+            return reply.data();
+        } else {
+            return status.error_message();
+        }
+    }
+
+    std::string remove(const std::string& key) {
+        dictionary::Key request;
+        request.set_data(key);
+
+        dictionary::Empty reply;
+        ClientContext context;
+
+        Status status = stub_->remove(&context, request, &reply);
+
+        if (status.ok()) {
+            return "OK";
+        } else {
+            return status.error_message();
+        }
+    }
+
+    std::string size() {
+        dictionary::Empty request;
+
+        dictionary::StorageSizeInfo reply;
+        ClientContext context;
+
+        Status status = stub_->size(&context, request, &reply);
+
+        if (status.ok()) {
+            return std::to_string(reply.size());
+        } else {
+            return status.error_message();
         }
     }
 
@@ -36,8 +82,17 @@ class Client {
 int main(int argc, char** argv) {
     Client client(grpc::CreateChannel("localhost:50051",
                                       grpc::InsecureChannelCredentials()));
-    std::string reply = client.set("world", "weird");
-    std::cout << reply << std::endl;
+    std::cout << "Starting client" << std::endl;
+
+    std::cout << client.set("world", "weird") << std::endl;
+    std::cout << client.set("world", "weir") << std::endl;
+    std::cout << client.set("hello", "123") << std::endl;
+    std::cout << client.set("hello", "12") << std::endl;
+    std::cout << client.remove("hello") << std::endl;
+    std::cout << client.set("hello", "12") << std::endl;
+    std::cout << client.get("world") << std::endl;
+    std::cout << client.get("hello") << std::endl;
+    std::cout << client.size() << std::endl;
 
     return 0;
 }
