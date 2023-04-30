@@ -9,16 +9,16 @@ using grpc::Status;
 
 namespace dictionary {
 class StorageService final : public Storage::Service {
-    Status set(ServerContext* context, const Key* request,
-               Value* reply) override;
+    Status set(ServerContext* context, const Entry* request,
+               Empty* reply) override;
 
     Status get(ServerContext* context, const Key* request,
                Value* reply) override;
 
     Status remove(ServerContext* context, const Key* request,
-                  Value* reply) override;
+                  Empty* reply) override;
 
     Status size(ServerContext* context, const Empty* request,
-                DictionarySizeInfo* reply) override;
+                StorageSizeInfo* reply) override;
 };
 }  // namespace dictionary

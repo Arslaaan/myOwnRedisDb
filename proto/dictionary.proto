@@ -2,26 +2,30 @@ syntax = "proto3";
 
 package dictionary;
 
-import "google/protobuf/any.proto";
+// import "google/protobuf/any.proto";
 
 service Storage {
+    rpc set(Entry) returns (Empty) {}
     rpc get(Key) returns (Value) {}
-    rpc set(Key) returns (Value) {}
-    rpc remove(Key) returns (Value) {}
-    rpc size(Empty) returns (DictionarySizeInfo) {}
+    rpc remove(Key) returns (Empty) {}
+    rpc size(Empty) returns (StorageSizeInfo) {}
+}
+
+message Entry {
+    Key key = 1;
+    Value value = 2;
+    // google.protobuf.Any payload = 2;
 }
 
 message Key {
     string data = 1;
-    google.protobuf.Any payload = 2;
 }
 
 message Value {
     string data = 1;
-    google.protobuf.Any payload = 2;
 }
 
-message DictionarySizeInfo {
+message StorageSizeInfo {
     int32 size = 1;
 }
 
