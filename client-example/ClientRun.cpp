@@ -19,7 +19,7 @@ class Client {
 
         ClientContext context;
 
-        Status status = stub_->set(&context, request, &reply);
+        Status status = stub_->Set(&context, request, &reply);
 
         if (status.ok()) {
             return "OK";
@@ -35,7 +35,7 @@ class Client {
         dictionary::Value reply;
         ClientContext context;
 
-        Status status = stub_->get(&context, request, &reply);
+        Status status = stub_->Get(&context, request, &reply);
 
         if (status.ok()) {
             return reply.data();
@@ -51,7 +51,7 @@ class Client {
         dictionary::Empty reply;
         ClientContext context;
 
-        Status status = stub_->remove(&context, request, &reply);
+        Status status = stub_->Remove(&context, request, &reply);
 
         if (status.ok()) {
             return "OK";
@@ -66,7 +66,7 @@ class Client {
         dictionary::StorageSizeInfo reply;
         ClientContext context;
 
-        Status status = stub_->size(&context, request, &reply);
+        Status status = stub_->Size(&context, request, &reply);
 
         if (status.ok()) {
             return std::to_string(reply.size());

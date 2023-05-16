@@ -5,10 +5,10 @@ package dictionary;
 // import "google/protobuf/any.proto";
 
 service Storage {
-    rpc set(Entry) returns (Empty) {}
-    rpc get(Key) returns (Value) {}
-    rpc remove(Key) returns (Empty) {}
-    rpc size(Empty) returns (StorageSizeInfo) {}
+    rpc Set(Entry) returns (Empty) {}
+    rpc Get(Key) returns (Value) {}
+    rpc Remove(Key) returns (Empty) {}
+    rpc Size(Empty) returns (StorageSizeInfo) {}
 }
 
 message Entry {

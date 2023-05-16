@@ -1,35 +1,32 @@
 #include "StorageService.h"
 
-Status dictionary::StorageService::set(ServerContext* context,
+Status dictionary::StorageService::Set(ServerContext* context,
                                        const Entry* request, Empty* reply) {
-    if (gmap.count(request->key().data())) {
-        return Status(StatusCode::ALREADY_EXISTS, "Key already exists");
-    }
-    gmap.emplace(request->key().data(), request->value().data());
+    stringToStringMap.emplace(request->key().data(), request->value().data());
     return Status::OK;
 }
 
-Status dictionary::StorageService::get(ServerContext* context,
+Status dictionary::StorageService::Get(ServerContext* context,
                                        const Key* request, Value* reply) {
-    if (!gmap.count(request->data())) {
+    if (!stringToStringMap.count(request->data())) {
         return Status(StatusCode::NOT_FOUND, "No entry found");
     }
-    reply->set_data(gmap[request->data()]);
+    reply->set_data(stringToStringMap[request->data()]);
     return Status::OK;
 }
 
-Status dictionary::StorageService::remove(ServerContext* context,
+Status dictionary::StorageService::Remove(ServerContext* context,
                                           const Key* request, Empty* reply) {
-    if (!gmap.count(request->data())) {
+    if (!stringToStringMap.count(request->data())) {
         return Status(StatusCode::NOT_FOUND, "No entry found");
     }
-    gmap.erase(request->data());
+    stringToStringMap.erase(request->data());
     return Status::OK;
 }
 
-Status dictionary::StorageService::size(ServerContext* context,
+Status dictionary::StorageService::Size(ServerContext* context,
                                         const Empty* request,
                                         StorageSizeInfo* reply) {
-    reply->set_size(gmap.size()); // todo may be incorrect because of types
+    reply->set_size(stringToStringMap.size()); // todo may be incorrect because of types
     return Status::OK;
 }

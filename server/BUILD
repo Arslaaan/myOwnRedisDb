@@ -5,9 +5,7 @@ cc_library(
     srcs = [
         "StorageService.cpp"
     ],
-    hdrs = [
-        "StorageService.h"
-    ],
+    hdrs = glob(["CallData/*.h"]) + ["StorageService.h"],
     deps = [
         "//proto:dictionary_library"
     ]
@@ -18,6 +16,7 @@ cc_binary(
     srcs = [
         "ServerRun.cpp"
     ],
+    copts = ["-Iserver/CallData"],
     deps = [
         ":redis-server-library",
     ],
