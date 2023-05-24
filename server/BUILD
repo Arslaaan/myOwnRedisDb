@@ -1,22 +1,33 @@
-load("@rules_cc//cc:defs.bzl", "cc_library", "cc_binary")
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
 
 cc_library(
     name = "redis-server-library",
     srcs = [
-        "StorageService.cpp"
+        "StorageService.cpp",
     ],
-    hdrs = glob(["CallData/*.h"]) + ["StorageService.h"],
+    hdrs =
+        glob(["CallData/*.h"]) + glob([
+            "cereal/**/*.hpp",
+        ]) + [
+            "StorageService.h",
+        ],
+    copts = [
+        "-Iserver",
+    ],
     deps = [
-        "//proto:dictionary_library"
-    ]
+        "//proto:dictionary_library",
+    ],
 )
 
 cc_binary(
     name = "redis-server-run",
     srcs = [
-        "ServerRun.cpp"
+        "ServerRun.cpp",
     ],
-    copts = ["-Iserver/CallData"],
+    copts = [
+        "-Iserver",
+        "-Iserver/CallData",
+    ],
     deps = [
         ":redis-server-library",
     ],

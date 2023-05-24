@@ -27,6 +27,24 @@ Status dictionary::StorageService::Remove(ServerContext* context,
 Status dictionary::StorageService::Size(ServerContext* context,
                                         const Empty* request,
                                         StorageSizeInfo* reply) {
-    reply->set_size(stringToStringMap.size()); // todo may be incorrect because of types
+    reply->set_size(
+        stringToStringMap.size());  // todo may be incorrect because of types
     return Status::OK;
 }
+
+void dictionary::StorageService::save() {
+    pid_t pid = fork();
+    if (pid == -1) {
+        gpr_log(GPR_ERROR, "Can`t fork process to save snapshot");
+        abort();
+    } else if (pid <= 0) {
+        std::ofstream snapshot("last.rdb");
+        {
+            cereal::BinaryOutputArchive oarchive(snapshot);
+            oarchive(stringToStringMap);
+        }
+        exit(0);
+    }
+}
+
+void dictionary::StorageService::load() {}

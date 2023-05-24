@@ -2,6 +2,10 @@
 
 #include <proto/dictionary.grpc.pb.h>
 #include <unordered_map>
+#include <fstream>
+#include <cereal/archives/binary.hpp>
+#include <cereal/types/unordered_map.hpp>
+#include <cereal/types/string.hpp>
 
 using grpc::Server;
 using grpc::ServerBuilder;
@@ -23,6 +27,9 @@ class StorageService final : public Storage::AsyncService {
 
     Status Size(ServerContext* context, const Empty* request,
                 StorageSizeInfo* reply) override;
+
+    void save();
+    void load();
 
    private:
    std::unordered_map<std::string, std::string> stringToStringMap;

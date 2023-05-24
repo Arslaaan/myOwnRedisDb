@@ -1,9 +1,9 @@
 #include <grpc++/grpc++.h>
 
 #include "GetCommand.h"
-#include "CallData/SetCommand.h"
-#include "CallData/RemoveCommand.h"
-#include "CallData/SizeCommand.h"
+#include "SetCommand.h"
+#include "RemoveCommand.h"
+#include "SizeCommand.h"
 
 class ServerImpl final {
    public:
