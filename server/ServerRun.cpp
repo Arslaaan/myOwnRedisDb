@@ -1,9 +1,6 @@
 #include <grpc++/grpc++.h>
 
-#include "GetCommand.h"
-#include "SetCommand.h"
-#include "RemoveCommand.h"
-#include "SizeCommand.h"
+#include "CallData.h"
 
 class ServerImpl final {
    public:
@@ -21,19 +18,20 @@ class ServerImpl final {
         builder.RegisterService(&storage_);
         cq_ = builder.AddCompletionQueue();
         server_ = builder.BuildAndStart();
-        std::cout << "Server listening on " << server_address << std::endl;
+        gpr_log(GPR_INFO, "Server listening on %s", server_address.c_str());
 
-        // Main Loop
+        // Main loop
         HandleRpcs();
     }
 
    private:
     void HandleRpcs() {
-        // Spawn a new CallData instance to serve new clients.
+        // Spawn a new CallData instances to serve new clients.
         initServerCompletionQueue();
         void* tag;  // uniquely identifies a request.
         bool ok;
         while (true) {
+            storage_.removeOutdatedEntries();
             GPR_ASSERT(cq_->Next(&tag, &ok));
             GPR_ASSERT(ok);
             static_cast<CallDataInterface*>(tag)->proceed();
@@ -45,6 +43,8 @@ class ServerImpl final {
         new SetCommand(&storage_, cq_.get());
         new RemoveCommand(&storage_, cq_.get());
         new SizeCommand(&storage_, cq_.get());
+        new KeysCommand(&storage_, cq_.get());
+        new PurgeCommand(&storage_, cq_.get());
     }
 
     std::unique_ptr<grpc::ServerCompletionQueue> cq_;
@@ -53,6 +53,9 @@ class ServerImpl final {
 };
 
 int main(int argc, char** argv) {
+    // grpc_tracer_set_enabled();
+    gpr_set_log_verbosity(GPR_LOG_SEVERITY_DEBUG);
+
     ServerImpl server;
     server.Run();
     return 0;

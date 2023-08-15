@@ -2,19 +2,20 @@ syntax = "proto3";
 
 package dictionary;
 
-// import "google/protobuf/any.proto";
-
 service Storage {
     rpc Set(Entry) returns (Empty) {}
     rpc Get(Key) returns (Value) {}
     rpc Remove(Key) returns (Empty) {}
     rpc Size(Empty) returns (StorageSizeInfo) {}
+    rpc Keys(Empty) returns (stream Key) {}
+    rpc Purge(Empty) returns (Empty) {}
 }
 
 message Entry {
     Key key = 1;
     Value value = 2;
-    // google.protobuf.Any payload = 2;
+    // Time to live for entry (seconds). If equals 0 - no ttl
+    int32 ttl = 3;
 }
 
 message Key {

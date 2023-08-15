@@ -6,10 +6,11 @@ cc_library(
         "StorageService.cpp",
     ],
     hdrs =
-        glob(["CallData/*.h"]) + glob([
-            "cereal/**/*.hpp",
-        ]) + [
+        glob(["CallData/*.h"]) +
+        glob(["cereal/**/*.hpp"]) +
+        [
             "StorageService.h",
+            "utils/GprTime.h"
         ],
     copts = [
         "-Iserver",
