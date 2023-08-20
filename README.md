@@ -1,5 +1,5 @@
 # myOwnRedisDb
-Simple redis like key-value database based on grpc protocol and bazel build system. Now db stores only string as data structure.
+Simple redis like key-value database based on grpc protocol and bazel build system (C++17). Now db stores only string as data structure.
 Some of completed features:
 - [x] async - use grpc framework for this
 - [x] TTL - time to live for value
@@ -8,7 +8,7 @@ Some of completed features:
 - [x] basic operations: set, get, remove, size(return current size of db), purge(clean all values), keys(return all keys as stream)
 
 # Run
-Install bazel and then use command for server (for locally run hardcoded port 50051):
+Install bazel and then use command for server (only local now - port 50051):
 ```
 bazel run //server:redis-server-run
 ```
